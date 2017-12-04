@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>有赞支付个人收款案例</title>
+  <link href="https://cdn.bootcss.com/bulma/0.6.1/css/bulma.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <section class="hero is-info">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          <a href="/">有赞支付</a>
+        </h1>
+        <h2 class="subtitle">
+          通过有赞云开发的个人收款案例
+        </h2>
+      </div>
+    </div>
+  </section>
+  {{block 'body'}} {{/block}}
+  </div>
+</body>
+
+</html>

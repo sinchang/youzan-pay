@@ -1,0 +1,5 @@
+{{extend './layouts/layout.art'}} {{block 'body'}}
+<div class="container">
+  <p>支付成功。点击返回<a href="/">首页</a></p>
+</div>
+{{/block}}
