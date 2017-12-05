@@ -13,18 +13,10 @@ class HomeController extends Controller {
 
   async handleCreateQrcode() {
     try {
-      const tokenRet = await this.getToken();
-
-      if (tokenRet.error){
-        this.ctx.status = 401;
-        this.ctx.body = tokenRet;
-        return;
-      }
-
-      const token = tokenRet.access_token;
-
-      const { qr_price } = this.ctx.request.body;
-      const qrcodeRet = await this.createQrcode(token, qr_price);
+      const {
+        qr_price
+      } = this.ctx.request.body;
+      const qrcodeRet = await this.createQrcode(qr_price);
 
       this.ctx.body = qrcodeRet;
     } catch (err) {
@@ -48,12 +40,20 @@ class HomeController extends Controller {
       },
       dataType: 'json'
     });
-    return result.data;
+
+    if (result.data.error) {
+      this.ctx.status = 401;
+      this.ctx.body = result.data;
+      return;
+    }
+
+    return result.data.access_token;
   }
 
-  async createQrcode(token, qr_price) {
+  async createQrcode(qr_price) {
+    const token = await this.getToken();
     const ctx = this.ctx;
-    const result = await ctx.curl(`${this.app.config.youzan.API}/create?access_token=${token}`, {
+    const result = await ctx.curl(`${this.app.config.youzan.API}/youzan.pay.qrcode/3.0.0/create?access_token=${token}`, {
       method: 'POST',
       data: {
         qr_type: 'QR_TYPE_DYNAMIC',
@@ -65,9 +65,38 @@ class HomeController extends Controller {
     return result.data;
   }
 
+  async getTrade(id) {
+    const token = await this.getToken();
+    const ctx = this.ctx;
+    const result = await ctx.curl(`${this.app.config.youzan.API}/youzan.trade/3.0.0/get?access_token=${token}&tid=${id}`, {
+      method: 'GET',
+      dataType: 'json'
+    })
+    return result.data.response.trade.qr_id;
+  }
+
   async listen() {
-    const body = this.ctx.request.body;
-    this.app.io.of('/').emit('res', 'TRADE_SUCCESS');
+    this.ctx.body = {
+      code: 0,
+      msg: 'success'
+    };
+
+    try {
+      const body = this.ctx.request.body;
+      const users = this.ctx.app.users;
+      const qrcodeId = await this.getTrade(body.id);
+      console.log(this.ctx.app.users)
+      const socketId = users[qrcodeId];
+      if (body.status === 'TRADE_SUCCESS') {
+        this.app.io.of('/').to(socketId).emit('res', 'TRADE_SUCCESS');
+        delete users[qrcodeId];
+      }
+    } catch(err) {
+      this.ctx.status = 500;
+      this.ctx.body = {
+        message: err.message
+      }
+    }
   }
 }
 

@@ -4,6 +4,11 @@
 <head>
   <title>有赞支付个人收款案例</title>
   <link href="https://cdn.bootcss.com/bulma/0.6.1/css/bulma.min.css" rel="stylesheet">
+  <style>
+    .container {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 
 <body>

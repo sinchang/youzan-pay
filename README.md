@@ -4,7 +4,6 @@
 
 ## TODO
 
-- 成功支付后消息推送给客户端
 - token 缓存
 
 ## QuickStart
@@ -14,6 +13,10 @@
 see [egg docs][egg] for more detail.
 
 ### Development
+
+配置文件 `config/config.default.js`
+
+本地开发的时候可以使用 [ngrok](https://ngrok.com/docs) 来做路由转发
 
 ```bash
 $ npm i
