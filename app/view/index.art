@@ -18,7 +18,7 @@
 <script>
   const submitBtn = document.getElementById('submit');
   const qrcode = document.getElementById('qrcode');
-  const socket = io(window.location.origin);
+  const socket = io();
 
   submitBtn.addEventListener('click', submit, false);
 
