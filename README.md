@@ -39,3 +39,4 @@ $ npm stop
 
 ## Releated
 - [xu42/pay](https://github.com/xu42/pay)
+- [个人网站即时到账收款解决方案](https://blog.xu42.cn/2017/11/26/person-website-instant-payment-solution/)
