@@ -24,7 +24,7 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start": "egg-scripts --sticky",
+    "start": "egg-scripts start --sticky",
     "stop": "egg-scripts stop",
     "dev": "egg-bin dev --sticky",
     "debug": "egg-bin debug",
