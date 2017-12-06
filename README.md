@@ -1,6 +1,6 @@
 # youzan-pay
 
-> 通过有赞云开发的个人收款案例
+> 通过有赞云开发的个人收款案例 [demo](http://youzan.sinchang.me/)
 
 ## TODO
 
@@ -14,7 +14,10 @@ see [egg docs][egg] for more detail.
 
 ### Development
 
-配置文件 `config/config.default.js`
+环境变量：
+- CLIENT_ID
+- CLIENT_SECRET
+- KAT_ID
 
 本地开发的时候可以使用 [ngrok](https://ngrok.com/docs) 来做路由转发
 
