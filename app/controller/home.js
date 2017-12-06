@@ -12,16 +12,18 @@ class HomeController extends Controller {
   }
 
   async handleCreateQrcode() {
+    const { ctx } = this;
+
     try {
       const {
         qr_price
-      } = this.ctx.request.body;
+      } = ctx.request.body;
       const qrcodeRet = await this.createQrcode(qr_price);
 
-      this.ctx.body = qrcodeRet;
+      ctx.body = qrcodeRet;
     } catch (err) {
-      this.ctx.status = 500;
-      this.ctx.body = {
+      ctx.status = 500;
+      ctx.body = {
         message: err.message
       }
     }
@@ -29,25 +31,33 @@ class HomeController extends Controller {
 
   async getToken() {
     const ctx = this.ctx;
-    const config = this.app.config.youzan
-    const result = await ctx.curl('https://open.youzan.com/oauth/token', {
-      method: 'POST',
-      data: {
-        client_id: process.env.CLIENT_ID,
-        client_secret: process.env.CLIENT_SECRET,
-        grant_type: 'silent',
-        kdt_id: process.env.KAT_ID
-      },
-      dataType: 'json'
-    });
+    const { value, expire } = this.app.token;
 
-    if (result.data.error) {
-      this.ctx.status = 401;
-      this.ctx.body = result.data;
-      return;
+    if (!expire || new Date().getTime() > expire){
+      const result = await ctx.curl('https://open.youzan.com/oauth/token', {
+        method: 'POST',
+        data: {
+          client_id: process.env.CLIENT_ID,
+          client_secret: process.env.CLIENT_SECRET,
+          grant_type: 'silent',
+          kdt_id: process.env.KAT_ID
+        },
+        dataType: 'json'
+      });
+
+      if (result.data.error) {
+        ctx.status = 401;
+        ctx.body = result.data;
+        return;
+      }
+
+      const token = result.data.access_token;
+      this.app.token.value = token;
+      this.app.token.expire = new Date().getTime() + 6 * 24 * 3600 * 1000;
+      return token;
+    } else {
+      return value;
     }
-
-    return result.data.access_token;
   }
 
   async createQrcode(qr_price) {
@@ -76,24 +86,26 @@ class HomeController extends Controller {
   }
 
   async listen() {
-    this.ctx.body = {
+    const { ctx } = this;
+
+    ctx.body = {
       code: 0,
       msg: 'success'
     };
 
     try {
-      const body = this.ctx.request.body;
-      const users = this.ctx.app.users;
+      const body = ctx.request.body;
+      const users = ctx.app.users;
       const qrcodeId = await this.getTrade(body.id);
-      console.log(this.ctx.app.users)
       const socketId = users[qrcodeId];
+
       if (body.status === 'TRADE_SUCCESS') {
         this.app.io.of('/').to(socketId).emit('res', 'TRADE_SUCCESS');
         delete users[qrcodeId];
       }
     } catch(err) {
-      this.ctx.status = 500;
-      this.ctx.body = {
+      ctx.status = 500;
+      ctx.body = {
         message: err.message
       }
     }
