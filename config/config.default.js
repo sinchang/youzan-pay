@@ -20,10 +20,7 @@ module.exports = appInfo => {
   config.art = {};
 
   config.youzan = {
-    API: 'https://open.youzan.com/api/oauthentry/youzan.pay.qrcode/3.0.0',
-    CLIENT_ID: '',
-    CLIENT_SECRET: '',
-    KAT_ID: ''
+    API: 'https://open.youzan.com/api/oauthentry'
   };
 
   config.security = {
