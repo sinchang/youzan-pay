@@ -2,10 +2,6 @@
 
 > 通过有赞云开发的个人收款案例 [demo](http://youzan.sinchang.me/)
 
-## TODO
-
-- token 缓存
-
 ## QuickStart
 
 <!-- add docs here for user -->
