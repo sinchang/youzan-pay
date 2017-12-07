@@ -6,7 +6,7 @@
     </p>
     <p class="control">
       <a class="button is-info" id="submit">
-        支付
+        生成付款码
       </a>
     </p>
   </div>
