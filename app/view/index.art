@@ -11,7 +11,7 @@
     </p>
   </div>
   <figure class="image is-128x128">
-    <img src="" id="qrcode">
+    <img src="" id="qrcode" style="display: none;">
   </figure>
 </div>
 <script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.slim.js"></script>
@@ -50,6 +50,7 @@
           socketId: socket.id,
           qrcodeId: data.response.qr_id
         });
+        qrcode.style.display = 'block';
         qrcode.src = data.response.qr_code;
       })
       .catch(err => {
