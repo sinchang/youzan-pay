@@ -33,6 +33,10 @@ module.exports = appInfo => {
   };
 
   exports.io = {
+    init: {
+      'transports': ['xhr-polling'],
+      'polling duration': 10
+    },
     namespace: {
       '/': {
         connectionMiddleware: ['auth'],
