@@ -62,8 +62,8 @@ class HomeController extends Controller {
 
   async createQrcode(qr_price) {
     const token = await this.getToken();
-    const ctx = this.ctx;
-    const result = await ctx.curl(`${this.app.config.youzan.API}/youzan.pay.qrcode/3.0.0/create?access_token=${token}`, {
+    const { ctx, config } = this;
+    const result = await ctx.curl(`${config.youzan.API}/youzan.pay.qrcode/3.0.0/create?access_token=${token}`, {
       method: 'POST',
       data: {
         qr_type: 'QR_TYPE_DYNAMIC',
@@ -77,8 +77,8 @@ class HomeController extends Controller {
 
   async getTrade(id) {
     const token = await this.getToken();
-    const ctx = this.ctx;
-    const result = await ctx.curl(`${this.app.config.youzan.API}/youzan.trade/3.0.0/get?access_token=${token}&tid=${id}`, {
+    const { ctx, config } = this;
+    const result = await ctx.curl(`${config.youzan.API}/youzan.trade/3.0.0/get?access_token=${token}&tid=${id}`, {
       method: 'GET',
       dataType: 'json'
     })

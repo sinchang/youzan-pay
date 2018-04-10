@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 module.exports = appInfo => {
   const config = exports = {};
 
@@ -13,8 +15,8 @@ module.exports = appInfo => {
     defaultViewEngine: 'art',
     mapping: {
       '.art': 'art',
-      '.html': 'art'
-    }
+      '.html': 'art',
+    },
   };
 
   config.art = {};
@@ -23,26 +25,22 @@ module.exports = appInfo => {
     API: 'https://open.youzan.com/api/oauthentry',
     CLIENT_ID: process.env.CLIENT_ID,
     CLIENT_SECRET: process.env.CLIENT_SECRET,
-    KAT_ID: process.env.KAT_ID
+    KAT_ID: process.env.KAT_ID,
   };
 
   config.security = {
     csrf: {
-      enable: false
-    }
+      enable: false,
+    },
   };
 
   exports.io = {
-    init: {
-      'transports': ['xhr-polling'],
-      'polling duration': 10
-    },
     namespace: {
       '/': {
-        connectionMiddleware: ['auth'],
-        packetMiddleware: ['filter'],
-      }
-    }
+        connectionMiddleware: [ 'auth' ],
+        packetMiddleware: [ 'filter' ],
+      },
+    },
   };
 
   return config;
