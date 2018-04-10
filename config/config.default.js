@@ -20,7 +20,10 @@ module.exports = appInfo => {
   config.art = {};
 
   config.youzan = {
-    API: 'https://open.youzan.com/api/oauthentry'
+    API: 'https://open.youzan.com/api/oauthentry',
+    CLIENT_ID: process.env.CLIENT_ID,
+    CLIENT_SECRET: process.env.CLIENT_SECRET,
+    KAT_ID: process.env.KAT_ID
   };
 
   config.security = {

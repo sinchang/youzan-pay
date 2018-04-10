@@ -30,17 +30,17 @@ class HomeController extends Controller {
   }
 
   async getToken() {
-    const ctx = this.ctx;
+    const { ctx, config } = this;
     const { value, expire } = this.app.token;
 
     if (!expire || new Date().getTime() > expire){
       const result = await ctx.curl('https://open.youzan.com/oauth/token', {
         method: 'POST',
         data: {
-          client_id: process.env.CLIENT_ID,
-          client_secret: process.env.CLIENT_SECRET,
+          client_id: config.CLIENT_ID,
+          client_secret: config.CLIENT_SECRET,
           grant_type: 'silent',
-          kdt_id: process.env.KAT_ID
+          kdt_id: config.KAT_ID
         },
         dataType: 'json'
       });
