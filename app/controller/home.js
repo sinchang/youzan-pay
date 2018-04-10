@@ -37,10 +37,10 @@ class HomeController extends Controller {
       const result = await ctx.curl('https://open.youzan.com/oauth/token', {
         method: 'POST',
         data: {
-          client_id: config.CLIENT_ID,
-          client_secret: config.CLIENT_SECRET,
+          client_id: config.youzan.CLIENT_ID,
+          client_secret: config.youzan.CLIENT_SECRET,
           grant_type: 'silent',
-          kdt_id: config.KAT_ID
+          kdt_id: config.youzan.KAT_ID
         },
         dataType: 'json'
       });
